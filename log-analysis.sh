@@ -25,19 +25,21 @@ read -p "Please input your keyword:" keyword
 
 mkdir ./${keyword}
 
-for file in $path ;
+for file in $path 
 do
- eval sed -n '/$keyword/p' ${file} >> ./${keyword}/${keyword}_log.log
+ eval sed -n '/${keyword}/p' ${file} >> ./${keyword}/${keyword}_log.log
 done
 
 
 cat ./${keyword}/${keyword}_log.log |tr -s ' '|cut -d' ' -f1| sort -r| uniq -c| sort -k1 -nr >>./${keyword}/${keyword}_ip.txt
 
 ip=$(awk '{print $2}' ./${keyword}/${keyword}_ip.txt)
-
-for i in $ip
- do  
-eval sed -n '/${i}/p' ${file} >> ./${keyword}/${keyword}_ip_log.log
+for file in $path 
+do
+	for i in $ip
+	do  
+	eval sed -n '/${i}/p' ${file} >> ./${keyword}/${keyword}_ip_log.log
+	done
 done
 }
 logpath
